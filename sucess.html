@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payment Successful - GLOW HAT MAGIC ✨</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Outfit',sans-serif}
+body{background:#05010a;min-height:100vh;color:white;position:relative;overflow-x:hidden;display:flex;align-items:center;justify-content:center}
+body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background:radial-gradient(circle at 20% 30%, rgba(0,255,136,0.2) 0%, transparent 50%),radial-gradient(circle at 80% 20%, rgba(138,43,226,0.25) 0%, transparent 50%),radial-gradient(circle at 50% 80%, rgba(0,255,255,0.15) 0%, transparent 60%);animation:smoke 8s infinite alternate;z-index:-1}
+@keyframes smoke{0%{transform:scale(1)}100%{transform:scale(1.2)}}
+.confetti{position:fixed;top:-10px;width:8px;height:8px;border-radius:50%;animation:fall linear infinite;z-index:1}
+@keyframes fall{0%{transform:translateY(-10px) translateX(0) rotate(0deg);opacity:1}100%{transform:translateY(110vh) translateX(100px) rotate(720deg);opacity:0}}
+.container{max-width:500px;width:90%;padding:30px 20px;text-align:center;position:relative;z-index:2}
+.success-box{border:2px solid #00ff88;border-radius:24px;padding:35px 25px;background:rgba(0,0,0,0.7);box-shadow:0 0 20px #00ff88,0 0 50px rgba(0,255,136,0.3), inset 0 0 20px rgba(0,255,255,0.1);animation:borderBeat 2s infinite}
+@keyframes borderBeat{0%,100%{box-shadow:0 0 15px #00ff88,0 0 30px rgba(0,255,136,0.3)}50%{box-shadow:0 0 30px #00ff88,0 0 60px rgba(0,255,136,0.6)}}
+.icon{font-size:4rem;filter:drop-shadow(0 0 20px #00ff88);animation:float 3s infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.title{margin-top:15px;font-size:2.2rem;font-weight:900;background:linear-gradient(90deg,#00ff88,#00ffff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 15px rgba(0,255,136,0.6))}
+.sub{margin-top:8px;font-size:1rem;color:#ff77c8;text-shadow:0 0 10px #ff00a0;letter-spacing:1px;font-style:italic;opacity:0.9}
+.info-box{margin-top:25px;padding:18px;border-radius:16px;background:rgba(0,255,136,0.1);border:1px solid rgba(0,255,136,0.3);text-align:left}
+.info-line{margin:8px 0;font-size:0.95rem}
+.info-line strong{color:#00ff88}
+.magic-btn{margin-top:28px;display:block;width:100%;padding:18px;border:none;border-radius:50px;font-size:1.25rem;font-weight:900;color:black;background:linear-gradient(90deg,#00ff88,#00ffff);box-shadow:0 0 20px #00ff88,0 0 40px rgba(0,255,255,0.6);cursor:pointer;letter-spacing:1px;text-decoration:none;transition:0.3s}
+.magic-btn:hover{transform:scale(1.03);box-shadow:0 0 30px #00ff88,0 0 60px #00ffff}
+.warning{margin-top:12px;font-size:0.8rem;color:#ff9fc9;opacity:0.8;line-height:1.4}
+.footer{margin-top:35px;padding-top:15px;border-top:1px solid rgba(255,255,255,0.1);font-size:0.75rem;color:#777}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="success-box">
+<div class="icon">✅</div>
+<div class="title">PAYMENT SUCCESSFUL! ✨</div>
+<div class="sub">Welcome to the Stars</div>
+
+<div class="info-box">
+<div class="info-line">✅ <strong>30 DAYS UNLIMITED ACTIVATED</strong></div>
+<div class="info-line">📅 Expires: <strong id="expiryDate">Loading...</strong></div>
+<div class="info-line">♾️ <strong>Unlimited transforms unlocked</strong></div>
+<div class="info-line">💳 Paid: <strong>₦500 via Paystack</strong></div>
+</div>
+
+<a class="magic-btn" id="goBtn" href="index.html?paid=true">🌟 GO TO MAGIC STUDIO 🌟</a>
+<div class="warning">Your premium is saved in this phone. Don't clear browser data or you will lose your 30 days access.</div>
+</div>
+<div class="footer">© 2026 Glow Hat Magic. All Rights Reserved. | Made for Stars</div>
+</div>
+
+<script>
+// Create confetti
+for(let i=0;i<30;i++){
+  let c=document.createElement('div');
+  c.className='confetti';
+  c.style.left=Math.random()*100+'vw';
+  c.style.animationDuration=(3+Math.random()*4)+'s';
+  c.style.animationDelay=Math.random()*2+'s';
+  c.style.background=['#00ff88','#00ffff','#ff00a0','#a855f7'][Math.floor(Math.random()*4)];
+  document.body.appendChild(c);
+}
+
+// Calculate expiry
+let expiry = new Date();
+expiry.setDate(expiry.getDate()+30);
+document.getElementById('expiryDate').textContent = expiry.toLocaleDateString('en-NG',{weekday:'long', year:'numeric', month:'long', day:'numeric'});
+
+// Save premium
+localStorage.setItem('glowPaid','true');
+localStorage.setItem('glowExpiry', expiry.toISOString());
+localStorage.setItem('glowTrials','999');
+
+// Button link - ensures paid param
+document.getElementById('goBtn').addEventListener('click', (e)=>{
+  e.preventDefault();
+  window.location.href = 'index.html?paid=true';
+});
+
+// Auto redirect after 5 seconds
+setTimeout(()=>{
+  window.location.href = 'index.html?paid=true';
+}, 5000);
+</script>
+</body>
+</html>
