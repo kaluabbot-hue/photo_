@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GLOW HAT MAGIC ✨</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Outfit',sans-serif}
+body{background:#05010a;min-height:100vh;color:white;position:relative;overflow-x:hidden}
+body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background:radial-gradient(circle at 20% 30%, rgba(255,0,128,0.25) 0%, transparent 50%),radial-gradient(circle at 80% 20%, rgba(138,43,226,0.3) 0%, transparent 50%),radial-gradient(circle at 50% 80%, rgba(0,255,255,0.2) 0%, transparent 60%);animation:smoke 8s infinite alternate;z-index:-1}
+@keyframes smoke{0%{transform:scale(1)}100%{transform:scale(1.2)}}
+.container{max-width:500px;margin:0 auto;padding:25px 20px 40px;text-align:center}
+.title{font-size:2.8rem;font-weight:900;background:linear-gradient(90deg,#ff00a0,#a855f7,#00ffff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 20px rgba(255,0,160,0.8));animation:glowPulse 2s infinite alternate}
+@keyframes glowPulse{0%{filter:drop-shadow(0 0 15px #ff00a0)}100%{filter:drop-shadow(0 0 35px #00ffff)}}
+.tagline{margin-top:8px;font-size:1.05rem;color:#ff77c8;text-shadow:0 0 10px #ff00a0,0 0 20px #ff00a0;letter-spacing:1px;font-style:italic;opacity:0.9}
+.magic-box{margin-top:30px;border:2px solid #ff00a0;border-radius:24px;padding:30px 20px;background:rgba(0,0,0,0.6);box-shadow:0 0 15px #ff00a0,0 0 40px rgba(255,0,160,0.3), inset 0 0 20px rgba(0,255,255,0.15);animation:borderBeat 2s infinite;cursor:pointer;transition:0.3s}
+@keyframes borderBeat{0%,100%{box-shadow:0 0 15px #ff00a0,0 0 30px rgba(255,0,160,0.3), inset 0 0 20px rgba(0,255,255,0.15)}50%{box-shadow:0 0 30px #ff00a0,0 0 60px rgba(255,0,160,0.6), inset 0 0 30px rgba(0,255,255,0.3)}}
+.magic-box:hover{transform:translateY(-3px) scale(1.02)}
+.magic-icon{font-size:3.5rem;filter:drop-shadow(0 0 15px #00ffff);animation:float 3s infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.magic-text{margin-top:12px;font-size:1.2rem;font-weight:700;color:white;text-shadow:0 0 10px #00ffff}
+.magic-sub{margin-top:5px;font-size:0.9rem;color:#a0a0ff;opacity:0.8}
+#previewWrap,#resultWrap{display:none;margin-top:20px}
+#previewWrap img,#resultWrap img{width:100%;border-radius:18px;box-shadow:0 0 20px rgba(0,255,255,0.5)}
+.transform-btn{margin-top:28px;width:100%;padding:18px;border:none;border-radius:50px;font-size:1.25rem;font-weight:900;color:black;background:linear-gradient(90deg,#00ff88,#00ffff);box-shadow:0 0 20px #00ff88,0 0 40px rgba(0,255,255,0.6);cursor:pointer;letter-spacing:1px;transition:0.3s}
+.transform-btn:disabled{opacity:0.4;cursor:not-allowed}
+.trials{margin-top:10px;font-size:0.95rem;color:#00ffcc;text-shadow:0 0 10px #00ffcc}
+.statusBox{margin-top:15px;padding:12px;border-radius:12px;font-size:0.85rem;display:none;font-weight:700}
+.divider{margin:35px 0 20px;height:1px;background:linear-gradient(90deg,transparent,rgba(255,0,160,0.5),transparent)}
+.pay-btn{display:block;width:100%;padding:18px;border-radius:50px;font-size:1.2rem;font-weight:900;color:white;text-decoration:none;background:linear-gradient(90deg,#ff00a0,#ff7a00);box-shadow:0 0 20px #ff00a0,0 0 40px rgba(255,122,0,0.5);letter-spacing:1px;transition:0.3s;animation:firePulse 1.5s infinite alternate}
+@keyframes firePulse{0%{box-shadow:0 0 15px #ff00a0}100%{box-shadow:0 0 35px #ff00a0,0 0 60px #ff7a00}}
+.pay-btn:hover{transform:scale(1.03)}
+.pay-sub{margin-top:10px;font-size:0.85rem;color:#ff9fc9;opacity:0.9}
+.footer{margin-top:40px;padding-top:15px;border-top:1px solid rgba(255,255,255,0.1);font-size:0.75rem;color:#777;letter-spacing:0.5px}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="title">GLOW HAT MAGIC ✨</div>
+<div class="tagline">Unleash The Star In You</div>
+<div class="statusBox" id="statusBox"></div>
+<div class="magic-box" id="dropBox">
+<div class="magic-icon">📸</div>
+<div class="magic-text">Drop Your Photo Here</div>
+<div class="magic-sub">or click to choose</div>
+<input type="file" id="fileInput" accept="image/*" hidden>
+<div id="previewWrap"><img id="previewImg"></div>
+<div id="resultWrap"><img id="resultImg"><div style="margin-top:10px;color:#ff77c8;font-weight:700">✨ Your Star Look Is Ready! ✨</div>
+<a id="downloadBtn" href="#" download="glow-like-iphone.jpg" style="display:block;margin-top:12px;color:#00ff88;font-weight:900;text-decoration:none">⬇️ DOWNLOAD</a>
+</div>
+</div>
+<button class="transform-btn" id="transformBtn">✨ TRANSFORM NOW ✨</button>
+<div class="trials" id="trialsText">3 FREE TRIALS LEFT</div>
+<div class="divider"></div>
+<a class="pay-btn" href="https://paystack.shop/pay/network-stabilizer-30days" target="_blank">💳 PAY / RENEW - ₦500</a>
+<div class="pay-sub">Unlock unlimited transformations for 30 days</div>
+<div class="footer">© 2026 Glow Hat Magic. All Rights Reserved. | Made for Stars</div>
+</div>
+<canvas id="hiddenCanvas" style="display:none"></canvas>
+<script>
+const PAYSTACK_LINK = "https://paystack.shop/pay/network-stabilizer-30days";
+let selectedFile = null;
+let trials = parseInt(localStorage.getItem('glowTrials') ?? '3');
+let paid = localStorage.getItem('glowPaid') === 'true';
+let expiryStr = localStorage.getItem('glowExpiry');
+const trialsText = document.getElementById('trialsText');
+const statusBox = document.getElementById('statusBox');
+const previewWrap = document.getElementById('previewWrap');
+const previewImg = document.getElementById('previewImg');
+const resultWrap = document.getElementById('resultWrap');
+const resultImg = document.getElementById('resultImg');
+const fileInput = document.getElementById('fileInput');
+const dropBox = document.getElementById('dropBox');
+const transformBtn = document.getElementById('transformBtn');
+const downloadBtn = document.getElementById('downloadBtn');
+const hiddenCanvas = document.getElementById('hiddenCanvas');
+const ctx = hiddenCanvas.getContext('2d', {willReadFrequently:true});
+
+function checkExpiry(){
+  if(paid && expiryStr){
+    const expiryDate = new Date(expiryStr);
+    const now = new Date();
+    if(now > expiryDate){
+      paid = false;
+      localStorage.removeItem('glowPaid');
+      localStorage.removeItem('glowExpiry');
+      localStorage.setItem('glowTrials','0');
+      trials = 0;
+      statusBox.style.display='block';
+      statusBox.style.background='rgba(255,0,0,0.2)';
+      statusBox.style.border='1px solid #ff5555';
+      statusBox.style.color='#ff9999';
+      statusBox.textContent='❌ Your 30 days expired. Please PAY ₦500 to renew.';
+    } else {
+      const daysLeft = Math.ceil((expiryDate - now)/(1000*60*60*24));
+      statusBox.style.display='block';
+      statusBox.style.background='rgba(0,255,136,0.15)';
+      statusBox.style.border='1px solid #00ff88';
+      statusBox.style.color='#00ff88';
+      statusBox.textContent=`✅ PREMIUM ACTIVE - ${daysLeft} days left - Unlimited!`;
+    }
+  }
+}
+checkExpiry();
+
+function updateTrials(){
+  if(paid){
+    trialsText.textContent = '♾️ UNLIMITED TRANSFORMS (PREMIUM)';
+    trialsText.style.color='#00ff88';
+    transformBtn.disabled = false;
+    transformBtn.style.opacity='1';
+  } else {
+    trialsText.textContent = trials > 0 ? `${trials} FREE TRIALS LEFT` : `0 FREE TRIALS - PLEASE PAY TO CONTINUE`;
+    transformBtn.disabled = trials <= 0;
+    transformBtn.style.opacity = trials<=0 ? '0.5' : '1';
+  }
+}
+updateTrials();
+
+dropBox.addEventListener('click', (e)=>{ if(e.target.tagName==='IMG') return; fileInput.click(); });
+fileInput.addEventListener('change', e=>{ const f=e.target.files[0]; if(f) loadFile(f); });
+dropBox.addEventListener('dragover', e=>{ e.preventDefault(); dropBox.style.transform='scale(1.02)' });
+dropBox.addEventListener('dragleave', ()=>{ dropBox.style.transform='scale(1)' });
+dropBox.addEventListener('drop', e=>{ e.preventDefault(); dropBox.style.transform='scale(1)'; const f=e.dataTransfer.files[0]; if(f) loadFile(f); });
+
+function loadFile(file){
+  if(!file.type.startsWith('image/')){ alert('Image only!'); return; }
+  selectedFile = file;
+  const url = URL.createObjectURL(file);
+  previewImg.src = url;
+  previewWrap.style.display='block';
+  resultWrap.style.display='none';
+  resultImg.style.filter='none';
+}
+
+// === NEW RARE PHOTO FEATURES ===
+function apply5Filters(img){
+  let w = img.naturalWidth;
+  let h = img.naturalHeight;
+  const MAX = 2048;
+  if(w > MAX || h > MAX){
+    let ratio = Math.min(MAX/w, MAX/h);
+    w = Math.floor(w*ratio); h = Math.floor(h*ratio);
+  }
+  hiddenCanvas.width = w; hiddenCanvas.height = h;
+  ctx.imageSmoothingQuality = 'high';
+  ctx.clearRect(0,0,w,h);
+  ctx.drawImage(img,0,0,w,h);
+
+  let imageData = ctx.getImageData(0,0,w,h);
+  let data = imageData.data;
+  const cx=w/2, cy=h/2, maxDist=Math.sqrt(cx*cx+cy*cy);
+
+  // Pre-calc grain lookup for speed
+  const GRAIN_SIZE = 10000;
+  const grainLookup = new Float32Array(GRAIN_SIZE);
+  for(let g=0; g<GRAIN_SIZE; g++) grainLookup[g] = (Math.random()-0.5)*6;
+  let grainIdx = 0;
+
+  for(let i=0; i<data.length; i+=4){
+    let r=data[i], g=data[i+1], b=data[i+2];
+
+    // 1. Luminance
+    let luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+
+    // 2. RARE: Luminance-Mapped Grain
+    let grainMask = Math.sin(luminance * Math.PI);
+    let grain = grainLookup[grainIdx++ % GRAIN_SIZE] * grainMask * 1.5;
+    r+=grain; g+=grain; b+=grain;
+
+    // 3. Warm LUT
+    let isMid = r>80 && r<200;
+    let boost = isMid?1:0.5;
+    if(g>r) g*=0.96;
+    r=r*1.02+5*boost;
+    g=g*0.99+3*boost;
+    b=b*0.97;
+
+    // 4. RARE: Film Highlight Roll-off
+    const applyFilmCurve = (v)=>{
+      v=v/255;
+      if(v>0.75){ v=0.75+(v-0.75)*0.5; }
+      else if(v<0.2){ v=v*0.9; }
+      return v*255;
+    };
+    r=applyFilmCurve(r);
+    g=applyFilmCurve(g);
+    b=applyFilmCurve(b);
+
+    // 5. Vignette deeper
+    let idx=i/4; let x=idx%w; let y=(idx/w)|0;
+    let dist=Math.sqrt((x-cx)*(x-cx)+(y-cy)*(y-cy));
+    let vig=1-(dist/maxDist)*0.04;
+    if(vig<0.95) vig=0.95;
+    r*=vig; g*=vig; b*=vig;
+
+    data[i]=r<0?0:r>255?255:r;
+    data[i+1]=g<0?0:g>255?255:g;
+    data[i+2]=b<0?0:b>255?255:b;
+  }
+  ctx.putImageData(imageData,0,0);
+  const finalUrl = hiddenCanvas.toDataURL('image/jpeg',0.95);
+  resultImg.src = finalUrl;
+  downloadBtn.href = finalUrl;
+}
+
+transformBtn.addEventListener('click', ()=>{
+  if(!selectedFile){ alert('Upload photo first! 📸'); return; }
+  if(!paid && trials<=0){
+    alert('Free trials finished! PAY ₦500 to continue ✨');
+    window.open(PAYSTACK_LINK,'_blank');
+    return;
+  }
+  transformBtn.textContent='🌌 TRANSFORMING...';
+  transformBtn.disabled = true;
+  const img = new Image();
+  img.onload = ()=>{
+    apply5Filters(img);
+    URL.revokeObjectURL(img.src);
+    resultWrap.style.display='block';
+    previewWrap.style.display='none';
+    resultImg.style.filter='drop-shadow(0 0 20px #ff00a0)';
+    if(!paid){ trials--; localStorage.setItem('glowTrials', trials.toString()); }
+    updateTrials();
+    checkExpiry();
+    transformBtn.textContent='✨ TRANSFORM NOW ✨';
+    transformBtn.disabled = paid ? false : trials<=0;
+    resultWrap.scrollIntoView({behavior:'smooth'});
+  };
+  img.src = URL.createObjectURL(selectedFile);
+});
+</script>
+</body>
+</html>
